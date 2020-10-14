@@ -1,0 +1,12 @@
+// "a type" "needed cpp_includes"
+"vector" "#include <vector>"
+
+"list" "#include <list>
+"
+
+"map" "#include <map>
+"
+
+"string" "#include <string>
+using string=std::string;"
+

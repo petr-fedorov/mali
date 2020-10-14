@@ -1,0 +1,4 @@
+class Spread
+!!!134662.cpp!!!	run() : void
+std::cout << input_file_ << "- spread is calculated!\n";
+
