@@ -1,0 +1,27 @@
+class Event
+!!!148358.cpp!!!	Event(in line : string)
+pImp_ = std::make_unique<EventImp>();
+std::istringstream s{line};
+std::string field;
+try {
+  if (getline(s, field, ',')) {
+    boost::uuids::string_generator gen;
+    pImp_->i = gen(field);
+  };
+  if (getline(s, field, ',')) {
+    pImp_->n = std::stol(field);
+  };
+}
+  catch (const std::exception &e) {
+    throw;
+  }
+!!!148870.cpp!!!	getPrice() : Event::Price
+return pImp_->p;
+!!!148998.cpp!!!	getPriceTimestamp() : Event::Timestamp
+return pImp_->price_t;
+!!!149126.cpp!!!	getOrderId() : Event::OrderId
+return pImp_->i;
+!!!149382.cpp!!!	getVolume() : Event::Volume
+return pImp_->v;
+!!!149510.cpp!!!	create(in line : string) : Event::EventSharedPtr
+return std::make_shared<Event>(line);

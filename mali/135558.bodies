@@ -1,4 +1,9 @@
 class Spread
 !!!134662.cpp!!!	run() : void
-std::cout << input_file_ << "- spread is calculated!\n";
+std::ifstream stream(input_file_);
+std::string line;
+std::getline(stream, line); // Header
+while(std::getline(stream, line)) {
+    ob_.process(Event::create(line));
+};
 

@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 4
+  revision 7
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -73,23 +73,59 @@ format 223
       size A4
     end
 
-    class 128134 "Event"
-      visibility package stereotype "struct"
-      cpp_decl "${comment}${template}struct ${name}${inherit} {
+    class 142982 "Event"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
       java_decl ""
       php_decl ""
       python_2_2 python_decl ""
-      idl_decl "${comment}struct ${name} {
-${members}};
-"
+      idl_decl ""
       explicit_switch_type ""
       mysql_decl ""
       
-      class 129030 "timestamp"
-	visibility package stereotype "typedef" base_type class_ref 128774 // time_point
+      class 150534 "EventSharedPtr"
+	visibility public stereotype "typedef" base_type class_ref 150662 // shared_ptr
+	nactuals 1
+	actual class class_ref 150662 // shared_ptr
+	  rank 0 value class_ref 142982 // Event
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 142086 // <realization>
+	  relation 142086 -_-|>
+	    a public
+	      cpp default "${type}"
+	      classrelation_ref 142086 // <realization>
+	    b parent class_ref 150662 // shared_ptr
+	end
+      end
+
+      class 149766 "OrderId"
+	visibility public stereotype "typedef" base_type class_ref 128518 // uuid
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      class 129030 "Timestamp"
+	visibility public stereotype "typedef" base_type class_ref 128774 // time_point
 	nactuals 2
 	actual class class_ref 128774 // time_point
 	  rank 0 value class_ref 128646 // system_clock
@@ -114,8 +150,203 @@ ${members}};
 	end
       end
 
+      class 149638 "Price"
+	visibility public stereotype "typedef" explicit_base_type "double"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      class 150150 "Volume"
+	visibility public stereotype "typedef" explicit_base_type "double"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      class 149894 "EventNo"
+	visibility public stereotype "typedef" base_type class_ref 128262 // uint32_t
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      class 150022 "State"
+	visibility public stereotype "typedef" explicit_base_type "bool"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      class 150278 "TradeId"
+	visibility public stereotype "typedef" base_type class_ref 128390 // uint64_t
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	mysql_decl ""
+	
+      end
+
+      classrelation 135174 // pImp_ (<directional aggregation>)
+	relation 135174 o-->
+	  stereotype "std::unique_ptr"
+	  a role_name "pImp_" multiplicity "0..1" protected
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 135174 // pImp_ (<directional aggregation>)
+	  b multiplicity "1" parent class_ref 128134 // EventImp
+      end
+
+      operation 148358 "Event"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "line" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}${)}${throw}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 148486 "~Event"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} = default;
+"
+	
+	
+	
+	
+      end
+
+      operation 148870 "getPrice"
+	const public return_type class_ref 149638 // Price
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 148998 "getPriceTimestamp"
+	const public return_type class_ref 129030 // Timestamp
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 149126 "getOrderId"
+	const public return_type class_ref 149766 // OrderId
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 149382 "getVolume"
+	const public return_type class_ref 150150 // Volume
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 149510 "create"
+	class_operation public return_type class_ref 150534 // EventSharedPtr
+	nparams 1
+	  param in name "line" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 128134 "EventImp"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      mysql_decl ""
+      
       attribute 128262 "i"
-	public type class_ref 128518 // uuid
+	public type class_ref 149766 // OrderId
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -127,7 +358,7 @@ ${members}};
       end
 
       attribute 128518 "n"
-	public type class_ref 128262 // uint32_t
+	public type class_ref 149894 // EventNo
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -139,7 +370,7 @@ ${members}};
       end
 
       attribute 128134 "t"
-	public type class_ref 129030 // timestamp
+	public type class_ref 129030 // Timestamp
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -151,7 +382,7 @@ ${members}};
       end
 
       attribute 128390 "s"
-	public explicit_type "bool"
+	public type class_ref 150022 // State
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -163,7 +394,7 @@ ${members}};
       end
 
       attribute 128646 "p"
-	public explicit_type "double"
+	public type class_ref 149638 // Price
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -175,7 +406,7 @@ ${members}};
       end
 
       attribute 128774 "v"
-	public explicit_type "double"
+	public type class_ref 150150 // Volume
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -187,7 +418,7 @@ ${members}};
       end
 
       attribute 128902 "f"
-	public type class_ref 128390 // uint64_t
+	public type class_ref 150278 // TradeId
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -199,7 +430,7 @@ ${members}};
       end
 
       attribute 129030 "delta_v"
-	public explicit_type "double"
+	public type class_ref 150150 // Volume
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -211,7 +442,7 @@ ${members}};
       end
 
       attribute 129158 "taker_i"
-	public type class_ref 128518 // uuid
+	public type class_ref 149766 // OrderId
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -223,7 +454,7 @@ ${members}};
       end
 
       attribute 129286 "local_t"
-	public type class_ref 129030 // timestamp
+	public type class_ref 129030 // Timestamp
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -232,6 +463,165 @@ ${members}};
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      attribute 148998 "price_t"
+	public type class_ref 129030 // Timestamp
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 148742 "~EventImp"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${typeprefix}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 142598 "OrderBook"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      class 149510 "CompareBids"
+	visibility private 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 148230 "operator()"
+	  const public explicit_return_type "bool"
+	  nparams 2
+	    param in name "lhs" type class_ref 150534 // EventSharedPtr
+	    param in name "rhs" type class_ref 150534 // EventSharedPtr
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+      end
+
+      class 150406 "CompareAsks"
+	visibility private 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 149254 "operator()"
+	  const public explicit_return_type "bool"
+	  nparams 2
+	    param in name "lhs" type class_ref 150534 // EventSharedPtr
+	    param in name "rhs" type class_ref 150534 // EventSharedPtr
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+      end
+
+      operation 148614 "~OrderBook"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${typeprefix}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      classrelation 142214 // bids_ (<directional composition>)
+	relation 142214 *-->
+	  stereotype "set"
+	  a role_name "bids_" multiplicity "*" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type},CompareBids> ${name}${value};
+"
+	    classrelation_ref 142214 // bids_ (<directional composition>)
+	  b parent class_ref 150534 // EventSharedPtr
+      end
+
+      classrelation 142342 // orders_ (<directional composition>)
+	relation 142342 *-->
+	  stereotype "map"
+	  a role_name "orders_" multiplicity "*" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<Event::OrderId, ${type}> ${name}${value};
+"
+	    classrelation_ref 142342 // orders_ (<directional composition>)
+	  b parent class_ref 150534 // EventSharedPtr
+      end
+
+      operation 149638 "process"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "e" type class_ref 150534 // EventSharedPtr
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} && ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} && ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      classrelation 148870 // asks_ (<directional composition>)
+	relation 148870 *-->
+	  stereotype "set"
+	  a role_name "asks_" multiplicity "*" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}, CompareAsks> ${name}${value};
+"
+	    classrelation_ref 148870 // asks_ (<directional composition>)
+	  b parent class_ref 150534 // EventSharedPtr
       end
     end
   end
@@ -310,6 +700,17 @@ ${inlines}
 	MysqlColumn
       end
 
+      attribute 149126 "ob_"
+	private type class_ref 142598 // OrderBook
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
   end
 
@@ -399,6 +800,7 @@ ${inlines}
 #define ${NAMESPACE}_${NAME}_H
 
 ${comment}
+#include <memory>
 ${includes}
 ${declarations}
 ${namespace_start}
@@ -407,12 +809,39 @@ ${namespace_end}
 #endif
 "
       cpp_src "${comment}
+#include <sstream>
+#include <boost/uuid/string_generator.hpp>
 ${includes}
 ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_elems
-	class_ref 128134 // Event
+	class_ref 142982 // Event
+      end
+    end
+
+    artifact 141830 "EventImp"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+#include <boost/uuid/uuid_io.hpp>
+#include <iostream>
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_elems
+	class_ref 128134 // EventImp
       end
     end
 
@@ -431,6 +860,8 @@ ${namespace_end}
 "
       cpp_src "${comment}
 #include <iostream>
+#include <fstream>
+#include \"Event.h\"
 ${includes}
 ${namespace_start}
 ${members}
@@ -523,6 +954,8 @@ int main(int argc, char **argv) {
 	artifact_ref 128518 // Main
 	artifact_ref 135046 // Spread
 	artifact_ref 135174 // Aggregate
+	artifact_ref 141702 // OrderBook
+	artifact_ref 141830 // EventImp
       end
       ncouples 10
       key "genpro pro" value "/tmp/mali/Build/mali.pro"
@@ -538,6 +971,29 @@ int main(int argc, char **argv) {
 CONFIG -= app_bundle
 CONFIG -= qt
 LIBS +=-lboost_program_options"
+    end
+
+    artifact 141702 "OrderBook"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_elems
+	class_ref 142598 // OrderBook
+      end
     end
   end
 

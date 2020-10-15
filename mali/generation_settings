@@ -18,16 +18,16 @@
     "ulong" "unsigned long" "long" "unsigned long" "${type}" "${type} &" "${type} &" "${type}"
     "float" "float" "float" "float" "${type}" "${type} &" "${type} &" "${type}"
     "double" "double" "double" "double" "${type}" "${type} &" "${type} &" "${type}"
-    "string" "string" "String" "string" "${type}" "${type} &" "${type} &" "${type}"
+    "string" "std::string" "String" "string" "${type}" "${type} &" "${type} &" "${type}"
   
   relations_stereotypes 5 // uml cpp java pythonidl
     "sequence" "vector" "Vector" "list" "sequence"
     "vector" "vector" "Vector" "list" "sequence"
     "list" "list" "List" "list" "sequence"
-    "set" "set" "Set" "set" "sequence"
-    "map" "map" "Map" "dict" "sequence"
+    "set" "std::set" "Set" "set" "sequence"
+    "map" "std::map" "Map" "dict" "sequence"
   
-  classes_stereotypes 18 // uml cpp java php python idl
+  classes_stereotypes 17 // uml cpp java php python idl
     "class" "class" "class" "class" "class" "valuetype"
     "trait" "class" "class" "trait" "class" "valuetype"
     "interface" "class" "interface" "interface" "class" "interface"
@@ -45,7 +45,6 @@
     "actor" "ignored" "ignored" "ignored" "ignored" "ignored"
     "@interface" "ignored" "@interface" "ignored" "ignored" "ignored"
     "stereotype" "ignored" "ignored" "ignored" "ignored" "ignored"
-    "hernya1" "hernya" "" "" "" ""
   
   cpp_enum_default_type_forms "${type}" "${type} &" "${type} &" "${type}" // in out inout return
   other_cpp_types_default_type_forms "const ${type} &" "${type} &" "${type} &" "${type}" // in out inout return

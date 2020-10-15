@@ -1,0 +1,3 @@
+class EventImp
+!!!148742.cpp!!!	~EventImp()
+std::cout << "Deleted " << boost::uuids::to_string(i) << " " << n << "\n";

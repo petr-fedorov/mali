@@ -1,0 +1,3 @@
+class OrderBook
+!!!149638.cpp!!!	process(inout e : Event::EventSharedPtr) : void
+orders_[e->getOrderId()] = e;

@@ -4,9 +4,10 @@
 "list" "#include <list>
 "
 
-"map" "#include <map>
+"std::map" "#include <map>
 "
 
-"string" "#include <string>
-using string=std::string;"
+"std::string" "#include <string>"
+
+"std::set" "#include <set>"
 

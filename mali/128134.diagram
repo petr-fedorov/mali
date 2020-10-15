@@ -1,16 +1,67 @@
 format 223
 
-classcanvas 128006 class_ref 129030 // timestamp
+classcanvas 128006 class_ref 129030 // Timestamp
   classdiagramsettings member_max_width 0 end
-  xyz 368.2 201 2000
+  xyz 109 244 2000
 end
 classcanvas 128134 class_ref 128774 // time_point
   classdiagramsettings member_max_width 0 end
-  xyz 369.6 67.8 2005
+  xyz 112 43 2005
+end
+classcanvas 128774 class_ref 142598 // OrderBook
+  classdiagramsettings member_max_width 0 end
+  xyz 279 938 2006
+end
+classcanvas 130438 class_ref 142982 // Event
+  classdiagramsettings member_max_width 0 end
+  xyz 477 652 2000
+end
+classcanvas 130566 class_ref 128134 // EventImp
+  classdiagramsettings show_members_full_definition yes member_max_width 0 end
+  xyz 481 174 2006
+end
+classcanvas 131974 class_ref 150534 // EventSharedPtr
+  classdiagramsettings member_max_width 0 end
+  xyz 269 762 2006
+end
+classcanvas 132230 class_ref 150662 // shared_ptr
+  classdiagramsettings member_max_width 0 end
+  xyz 282 612 2012
 end
 relationcanvas 128262 relation_ref 128134 // <realization>
-  from ref 128006 z 2006 label "<Clock->system_clock, Duration->microseconds>" max_width 255 xyz 262 145 2006 to ref 128134
+  from ref 128006 z 2006 label "<Clock->system_clock, Duration->microseconds>" max_width 255 xyz 4 154 2006 to ref 128134
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130950 relation_ref 135174 // <directional aggregation>
+  from ref 130438 z 2007 stereotype "<<:unique_ptr>>" xyz 495 572 3000 to ref 130566
+  role_a_pos 555 504 3000 no_role_b
+  multiplicity_a_pos 513 504 3000 multiplicity_b_pos 528 625 3000
+end
+line 131206 ---+
+  from ref 128006 z 2001 to ref 130438
+line 132102 ---+
+  from ref 131974 z 2007 to ref 130438
+relationcanvas 132358 relation_ref 142086 // <realization>
+  from ref 131974 z 2013 label "<T->Event>" max_width 255 xyz 295 740 2013 to ref 132230
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 132614 relation_ref 142214 // <directional composition>
+  from ref 128774 z 2007 stereotype "<<set>>" xyz 380 911 3000 to point 436 883
+  line 132998 z 2007 to ref 131974
+  role_a_pos 379 811 3000 no_role_b
+  multiplicity_a_pos 379 847 3000 no_multiplicity_b
+end
+relationcanvas 132742 relation_ref 142342 // <directional composition>
+  from ref 128774 z 2007 stereotype "<<map>>" xyz 205.5 925.5 3000 to point 188 898
+  line 132870 z 2007 to ref 131974
+  role_a_pos 223 797 3000 no_role_b
+  multiplicity_a_pos 263 833 3000 no_multiplicity_b
+end
+relationcanvas 133126 relation_ref 148870 // <directional composition>
+  from ref 128774 z 2007 stereotype "<<set>>" xyz 300.5 883.5 3000 to ref 131974
+  role_a_pos 335 840 3000 no_role_b
+  multiplicity_a_pos 310 840 3000 no_multiplicity_b
 end
 end
