@@ -1,0 +1,11 @@
+class Stripe
+!!!206086.cpp!!!	getPrice() : Event::Price
+return pImp_->p;
+!!!206214.cpp!!!	getVolume() : Event::Volume
+return pImp_->v;
+!!!206342.cpp!!!	getStart() : Event::Timestamp
+return pImp_->t;
+!!!206470.cpp!!!	getDuration() : Stripe::seconds
+return std::chrono::duration_cast<seconds>(pImp_->d);
+!!!206598.cpp!!!	isBest() : bool
+return pImp_->b;

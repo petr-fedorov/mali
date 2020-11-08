@@ -3,7 +3,7 @@
   cpp_h_extension "h" cpp_src_extension "cpp" cpp_h_add_extensions "" cpp_src_add_extensions "" java_extension "java" php_extension "php" python_extension "py" idl_extension "idl"
   cpp_inline_dont_force_incl_in_h
 
-  type_forms 15 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
+  type_forms 16 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
     "void" "void" "void" "void" "${type}" "${type} &" "${type}" "${type}"
     "any" "void *" "Object" "any" "const ${type}" "${type}" "${type} &" "${type}"
     "bool" "bool" "boolean" "boolean" "${type}" "${type} &" "${type} &" "${type}"
@@ -19,13 +19,16 @@
     "float" "float" "float" "float" "${type}" "${type} &" "${type} &" "${type}"
     "double" "double" "double" "double" "${type}" "${type} &" "${type} &" "${type}"
     "string" "std::string" "String" "string" "${type}" "${type} &" "${type} &" "${type}"
+    "long long" "long long" "long" "long" "${type}" "${type} &" "${type} &" "${type}"
   
-  relations_stereotypes 5 // uml cpp java pythonidl
+  relations_stereotypes 7 // uml cpp java pythonidl
     "sequence" "vector" "Vector" "list" "sequence"
-    "vector" "vector" "Vector" "list" "sequence"
+    "vector" "std::vector" "Vector" "list" "sequence"
     "list" "list" "List" "list" "sequence"
     "set" "std::set" "Set" "set" "sequence"
     "map" "std::map" "Map" "dict" "sequence"
+    "shared_ptr" "std::shared_ptr" "shared" "shared" "shared"
+    "unique_ptr" "std::unique_ptr" "" "" ""
   
   classes_stereotypes 17 // uml cpp java php python idl
     "class" "class" "class" "class" "class" "valuetype"

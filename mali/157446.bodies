@@ -1,0 +1,5 @@
+class LayerImp
+!!!205958.cpp!!!	getVolume() : Event::Volume
+Event::Volume result = 0;
+for(auto & e: events) result += e.getVolume();
+return result;

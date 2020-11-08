@@ -1,3 +1,36 @@
 class EventImp
 !!!148742.cpp!!!	~EventImp()
-std::cout << "Deleted " << boost::uuids::to_string(i) << " " << n << "\n";
+// BOOST_LOG_TRIVIAL(debug) << "~EventImpl() " << toString();
+!!!156166.cpp!!!	EventImp(in line : string)
+std::istringstream sstr{line};
+std::string field;
+try {
+  if (getline(sstr, field, ',')) {
+    boost::uuids::string_generator gen;
+    i = gen(field);
+  };
+  if (getline(sstr, field, ',')) {
+    n = std::stol(field);
+  };
+  sstr >> date::parse("%FT%TZ ,", t);
+  if (getline(sstr, field, ',')) {
+    s = std::stoi(field);
+  };
+  if (getline(sstr, field, ',')) {
+    p = std::stod(field);
+  };
+  if (getline(sstr, field, ',')) {
+    v = std::stod(field);
+  };
+  // BOOST_LOG_TRIVIAL(debug) << " EventImpl() " << toString();
+} catch (const std::exception &e) {
+  BOOST_LOG_TRIVIAL(error) << line;
+  throw;
+}
+
+!!!163590.cpp!!!	toString() : string
+std::stringstream str;
+str << "i=" << boost::uuids::to_string(i) << " n=" << n
+    << " t=" << date::format("%Y-%m-%dT%H-%M-%S", t) << " s=" << s
+    << " p=" << p << " v=" << v;
+return str.str();

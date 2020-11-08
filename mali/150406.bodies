@@ -1,7 +1,0 @@
-class CompareAsks
-!!!149254.cpp!!!	operator()(in lhs : Event::EventSharedPtr, in rhs : Event::EventSharedPtr) : bool
-if (lhs->getPrice() != rhs->getPrice())
-  return lhs->getPrice() < rhs->getPrice();
-else if (lhs->getPriceTimestamp() != rhs->getPriceTimestamp())
-  return lhs->getPriceTimestamp() < rhs->getPriceTimestamp();
-return lhs->getOrderId() < rhs->getOrderId();

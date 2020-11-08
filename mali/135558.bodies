@@ -1,9 +1,33 @@
 class Spread
 !!!134662.cpp!!!	run() : void
-std::ifstream stream(input_file_);
+std::ifstream input(input_file_);
+std::ofstream best_bids("best_bids.csv");
+std::ofstream best_asks("best_asks.csv");
 std::string line;
-std::getline(stream, line); // Header
-while(std::getline(stream, line)) {
-    ob_.process(Event::create(line));
+std::getline(input, line); // Header
+auto output = [&best_bids, &best_asks]( const Stripe& r) {
+      if (r.isBest()) {
+        std::ofstream * stream;
+        if(r.getVolume() > 0)
+          stream = &best_bids;
+        else
+          stream = &best_asks;
+        *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed << std::setprecision(3) << r.getPrice()
+               << "," << std::setprecision(6) << r.getDuration().count() << ",0,"
+               << r.getVolume() << "\n";
+      }
 };
-
+VecOfEvents episode{};
+while (std::getline(input, line)) {
+  Event event{line};
+  if (episode.empty() || episode.back().getTimestamp() == event.getTimestamp())
+    episode.push_back(std::move(event));
+  else {
+    for (auto &r : ob_.update(std::move(episode)))
+      output(r);
+    episode.push_back(std::move(event));
+  }
+}
+if (!episode.empty())
+  for (auto &r : ob_.update(std::move(episode)))
+    output(r);

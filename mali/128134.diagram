@@ -2,66 +2,122 @@ format 223
 
 classcanvas 128006 class_ref 129030 // Timestamp
   classdiagramsettings member_max_width 0 end
-  xyz 109 244 2000
+  xyz 154 574 2000
 end
 classcanvas 128134 class_ref 128774 // time_point
   classdiagramsettings member_max_width 0 end
-  xyz 112 43 2005
+  xyz 158 352 2005
 end
 classcanvas 128774 class_ref 142598 // OrderBook
   classdiagramsettings member_max_width 0 end
-  xyz 279 938 2006
+  xyz 207 841 2006
 end
 classcanvas 130438 class_ref 142982 // Event
   classdiagramsettings member_max_width 0 end
-  xyz 477 652 2000
+  xyz 548 453 2000
 end
 classcanvas 130566 class_ref 128134 // EventImp
   classdiagramsettings show_members_full_definition yes member_max_width 0 end
-  xyz 481 174 2006
+  xyz 539 11 2006
 end
-classcanvas 131974 class_ref 150534 // EventSharedPtr
+classcanvas 135174 class_ref 157446 // LayerImp
   classdiagramsettings member_max_width 0 end
-  xyz 269 762 2006
+  xyz 753 794 2000
 end
-classcanvas 132230 class_ref 150662 // shared_ptr
+classcanvas 138758 class_ref 164614 // PriceLayerMap
   classdiagramsettings member_max_width 0 end
-  xyz 282 612 2012
+  xyz 415 1007 2012
+end
+classcanvas 139910 class_ref 171270 // map
+  classdiagramsettings member_max_width 0 end
+  xyz 177 1010 2005
+end
+classcanvas 140166 class_ref 177798 // StripeImp
+  classdiagramsettings member_max_width 0 end
+  xyz 750 944 3005
+end
+classcanvas 140294 class_ref 177926 // Layer
+  classdiagramsettings member_max_width 0 end
+  xyz 441 754 2000
+end
+classcanvas 140678 class_ref 178054 // Stripe
+  classdiagramsettings member_max_width 0 end
+  xyz 580 922 2000
+end
+classcanvas 140934 class_ref 178182 // vector
+  classdiagramsettings member_max_width 0 end
+  xyz 87 1111 2005
+end
+classcanvas 141062 class_ref 178310 // VecOfStripes
+  classdiagramsettings member_max_width 0 end
+  xyz 241 1108 2000
+end
+classcanvas 141446 class_ref 178438 // VecOfEvents
+  classdiagramsettings member_max_width 0 end
+  xyz 39 730 2000
 end
 relationcanvas 128262 relation_ref 128134 // <realization>
-  from ref 128006 z 2006 label "<Clock->system_clock, Duration->microseconds>" max_width 255 xyz 4 154 2006 to ref 128134
+  from ref 128006 z 2006 label "<Clock->system_clock, Duration->microseconds>" max_width 255 xyz 50 473 2006 to ref 128134
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 130950 relation_ref 135174 // <directional aggregation>
-  from ref 130438 z 2007 stereotype "<<:unique_ptr>>" xyz 495 572 3000 to ref 130566
-  role_a_pos 555 504 3000 no_role_b
-  multiplicity_a_pos 513 504 3000 multiplicity_b_pos 528 625 3000
+  from ref 130438 z 2007 stereotype "<<unique_ptr>>" xyz 568 413 3000 to ref 130566
+  role_a_pos 626 385 3000 no_role_b
+  multiplicity_a_pos 599 385 3000 multiplicity_b_pos 586 426 3000
 end
 line 131206 ---+
   from ref 128006 z 2001 to ref 130438
-line 132102 ---+
-  from ref 131974 z 2007 to ref 130438
-relationcanvas 132358 relation_ref 142086 // <realization>
-  from ref 131974 z 2013 label "<T->Event>" max_width 255 xyz 295 740 2013 to ref 132230
+relationcanvas 140038 relation_ref 183558 // <realization>
+  from ref 138758 z 2013 label "<Key->Price, T->Layer>" max_width 255 xyz 247 1020 2013 stereotype "<<bind>>" xyz 289 1040 3000 to ref 139910
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 132614 relation_ref 142214 // <directional composition>
-  from ref 128774 z 2007 stereotype "<<set>>" xyz 380 911 3000 to point 436 883
-  line 132998 z 2007 to ref 131974
-  role_a_pos 379 811 3000 no_role_b
-  multiplicity_a_pos 379 847 3000 no_multiplicity_b
+relationcanvas 140422 relation_ref 190086 // <directional aggregation>
+  from ref 140294 z 2001 stereotype "<<shared_ptr>>" xyz 593 856 3000 to ref 135174
+  role_a_pos 705 829 3000 no_role_b
+  multiplicity_a_pos 735 865 3000 multiplicity_b_pos 541 869 3000
 end
-relationcanvas 132742 relation_ref 142342 // <directional composition>
-  from ref 128774 z 2007 stereotype "<<map>>" xyz 205.5 925.5 3000 to point 188 898
-  line 132870 z 2007 to ref 131974
-  role_a_pos 223 797 3000 no_role_b
-  multiplicity_a_pos 263 833 3000 no_multiplicity_b
+relationcanvas 140550 relation_ref 190214 // <directional composition>
+  from ref 128774 z 2007 to point 240 666
+  line 142982 z 2007 to point 480 665
+  line 142470 z 2007 stereotype "<<map>>" xyz 454 709 3000 to ref 140294
+  role_a_pos 493 727 3000 no_role_b
+  multiplicity_a_pos 468 727 3000 multiplicity_b_pos 229 814 3000
 end
-relationcanvas 133126 relation_ref 148870 // <directional composition>
-  from ref 128774 z 2007 stereotype "<<set>>" xyz 300.5 883.5 3000 to ref 131974
-  role_a_pos 335 840 3000 no_role_b
-  multiplicity_a_pos 310 840 3000 no_multiplicity_b
+relationcanvas 140806 relation_ref 190342 // <directional aggregation>
+  from ref 140678 z 3006 stereotype "<<unique_ptr>>" xyz 661 1037 3000 to ref 140166
+  role_a_pos 702 1012 3000 no_role_b
+  multiplicity_a_pos 732 1048 3000 no_multiplicity_b
+end
+relationcanvas 141574 relation_ref 190598 // <realization>
+  from ref 141446 z 2006 label "<T->Event>" max_width 255 xyz 77 933 2006 stereotype "<<bind>>" xyz 82 989 3000 to ref 140934
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 141830 relation_ref 190726 // <directional composition>
+  from ref 135174 z 2001 stereotype "<<vector>>" xyz 684 747 3000 to ref 130438
+  role_a_pos 701 710 3000 no_role_b
+  multiplicity_a_pos 676 710 3000 no_multiplicity_b
+end
+relationcanvas 142086 relation_ref 190854 // <directional composition>
+  decenter_begin 542
+  from ref 128774 z 2007 to point 249 985
+  line 143622 z 2007 stereotype "<<map>>" xyz 340 987 3000 to point 484 986
+  line 142342 z 2007 to ref 140294
+  role_a_pos 496 978 3000 no_role_b
+  multiplicity_a_pos 471 978 3000 no_multiplicity_b
+end
+relationcanvas 142598 relation_ref 190982 // <directional composition>
+  decenter_begin 377
+  decenter_end 564
+  from ref 128774 z 2007 stereotype "<<map>>" xyz 336 868 3000 to ref 140294
+  role_a_pos 372 849 3000 no_role_b
+  multiplicity_a_pos 425 885 3000 no_multiplicity_b
+end
+relationcanvas 144134 relation_ref 197766 // <realization>
+  from ref 141062 z 2006 label "<T->Stripe>" max_width 255 xyz 154 1122 2006 stereotype "<<bind>>" xyz 161 1142 3000 to ref 140934
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
 end
 end

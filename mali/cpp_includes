@@ -1,5 +1,5 @@
 // "a type" "needed cpp_includes"
-"vector" "#include <vector>"
+"std::vector" "#include <vector>"
 
 "list" "#include <list>
 "
@@ -10,4 +10,6 @@
 "std::string" "#include <string>"
 
 "std::set" "#include <set>"
+
+"std::unique_ptr" "#include <memory>"
 
