@@ -5,27 +5,34 @@ std::ofstream best_bids("best_bids.csv");
 std::ofstream best_asks("best_asks.csv");
 std::string line;
 std::getline(input, line); // Header
-auto output = [&best_bids, &best_asks]( const Stripe& r) {
-      if (r.isBest()) {
-        std::ofstream * stream;
-        if(r.getVolume() > 0)
-          stream = &best_bids;
-        else
-          stream = &best_asks;
-        *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed << std::setprecision(3) << r.getPrice()
-               << "," << std::setprecision(6) << r.getDuration().count() << ",0,"
-               << r.getVolume() << "\n";
-      }
+auto output = [&best_bids, &best_asks](const Stripe &r) {
+  if (r.isBest()) {
+    std::ofstream *stream;
+    if (r.getVolume() > 0)
+      stream = &best_bids;
+    else
+      stream = &best_asks;
+    *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
+            << std::setprecision(3) << r.getPrice() << ","
+            << std::setprecision(6) << r.getDuration().count() << ",0,"
+            << r.getVolume() << "\n";
+  }
 };
 VecOfEvents episode{};
 while (std::getline(input, line)) {
-  Event event{line};
-  if (episode.empty() || episode.back().getTimestamp() == event.getTimestamp())
-    episode.push_back(std::move(event));
-  else {
-    for (auto &r : ob_.update(std::move(episode)))
-      output(r);
-    episode.push_back(std::move(event));
+  try {
+    Event event{line};
+    if (episode.empty() ||
+        episode.back().getTimestamp() == event.getTimestamp())
+      episode.push_back(std::move(event));
+    else {
+      for (auto &r : ob_.update(std::move(episode)))
+        output(r);
+      episode.push_back(std::move(event));
+    }
+  } catch (const std::exception &e) {
+    BOOST_LOG_TRIVIAL(warning) << e.what();
+    BOOST_LOG_TRIVIAL(warning) << line;
   }
 }
 if (!episode.empty())

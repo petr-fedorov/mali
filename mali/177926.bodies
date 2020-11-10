@@ -1,17 +1,25 @@
 class Layer
 !!!190726.cpp!!!	bestSince(in timestamp : Event::Timestamp, out stripes : VecOfStripes) : void
-if( !isEmpty() && pImp_->start < timestamp) {
-  stripes.emplace_back(pImp_->events[0].getPrice(), pImp_->getVolume(), pImp_->start, timestamp - pImp_->start, pImp_->best);
-  pImp_->start = timestamp;
+if (!isEmpty() && pImp_->start < timestamp) {
+  stripes.emplace_back(pImp_->events[0].getPrice(), pImp_->getVolume(),
+                       pImp_->start, timestamp - pImp_->start, pImp_->best);
 }
+
+pImp_->start = timestamp;
 pImp_->best = true;
 !!!190982.cpp!!!	bestUntil(in timestamp : Event::Timestamp, out stripes : VecOfStripes) : void
-if( !isEmpty() && pImp_->start < timestamp) {
+if( !isEmpty() && pImp_->start < timestamp) 
   stripes.emplace_back(pImp_->events[0].getPrice(), pImp_->getVolume(), pImp_->start, timestamp - pImp_->start, pImp_->best);
-  pImp_->start = timestamp;
-}
+pImp_->start = timestamp;
 pImp_->best = false;
 !!!190854.cpp!!!	take(in event : Event, out stripes : VecOfStripes) : bool
+Event::Price layer_price;
+
+if (pImp_->events.size())
+  layer_price = pImp_->events.front().getPrice();
+else
+  layer_price = event.getPrice();
+
 if (event.getEventNo() != 1) {
   // Remove the previous event, if any ...
   auto pe = std::find_if(pImp_->events.begin(), pImp_->events.end(),
@@ -24,32 +32,40 @@ if (event.getEventNo() != 1) {
         pImp_->start) { // Produce a stripe, if it has not been produced yet
       stripes.emplace_back(pe->getPrice(), pImp_->getVolume(), pImp_->start,
                            event.getTimestamp() - pImp_->start, pImp_->best);
-      pImp_->start = event.getTimestamp();
     }
     pImp_->events.erase(pe);
+    if (!pImp_->events.size()) {
+      pImp_->start = Event::Timestamp{};
+    } else
+      pImp_->start = event.getTimestamp();
   }
 }
-if (event.getState()) {
-  if (pImp_->events.empty() ||
-      pImp_->events.front().getPrice() == event.getPrice()) {
+if (event.getPrice() == layer_price) {
+  if (event.getState()) {
     BOOST_LOG_TRIVIAL(debug) << "Taken " << event.toString();
-    if (event.getTimestamp() !=
-        pImp_->start) { // Produce a stripe, if it has not been produced yet
+    if (!pImp_->events.empty() &&
+        event.getTimestamp() !=
+            pImp_->start) { // Produce a stripe, if it has not been produced yet
       stripes.emplace_back(event.getPrice(), pImp_->getVolume(), pImp_->start,
                            event.getTimestamp() - pImp_->start, pImp_->best);
-      pImp_->start = event.getTimestamp();
     }
+    pImp_->start = event.getTimestamp();
     pImp_->events.push_back(std::move(event));
     return true;
+  } else {
+    BOOST_LOG_TRIVIAL(debug) << "Taken " << event.toString();
+    return true;
   }
-  if(!pImp_->events.size()){
-    pImp_->start = Event::Timestamp{};
-  }
+} else
   return false;
-} else {
-  BOOST_LOG_TRIVIAL(debug) << "Taken " << event.toString();
-  return true;
+!!!191366.cpp!!!	advance(in timestamp : Event::Timestamp, out stripes : VecOfStripes) : void
+if (!isEmpty() && pImp_->start < timestamp) {
+  stripes.emplace_back(pImp_->events.front().getPrice(), pImp_->getVolume(),
+                       pImp_->start, timestamp - pImp_->start, pImp_->best);
 }
+
+pImp_->start = timestamp;
+
 !!!191238.cpp!!!	operator ==(in rhs : Layer) : bool
 return pImp_ == rhs.pImp_;
 !!!191494.cpp!!!	isEmpty() : bool

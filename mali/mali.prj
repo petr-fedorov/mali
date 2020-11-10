@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 16
+  revision 22
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -591,6 +591,22 @@ ${inlines}
 	
 	
 	
+      end
+
+      operation 213254 "update"
+	public return_type class_ref 178310 // VecOfStripes
+	nparams 1
+	  param in name "timestamp" type class_ref 129030 // Timestamp
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "tells Order Book that time has passed (without events). "
       end
 
       classrelation 190214 // bids_ (<directional composition>)
@@ -1352,6 +1368,18 @@ ${inlines}
 	mysql_decl ""
 	MysqlColumn
       end
+
+      attribute 183046 "ob_"
+	private type class_ref 142598 // OrderBook
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
   end
 
@@ -1648,6 +1676,10 @@ ${namespace_end}
 "
       cpp_src "${comment}
 #include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <boost/log/trivial.hpp>
+#include \"date.h\"
 ${includes}
 ${namespace_start}
 ${members}
@@ -1687,7 +1719,7 @@ void init() {
                         keywords::format = \"[%TimeStamp%]: %Message%\");
 
   logging::core::get()->set_filter(logging::trivial::severity >=
-                                   logging::trivial::debug);
+                                   logging::trivial::info);
 }
 
 void usage(const po::options_description &desc) {
@@ -9864,11 +9896,27 @@ set datafile separator \",\"
 set xdata time
 set timefmt \"%Y-%m-%dT%H:%M:%SZ\"
 set xtics format \"%H:%M:%.3SZ\" rotate
-set palette defined (-200 \"blue\", 0 'white', 200 'red')
-plot b1=NaN, a1=NaN \"best_bids.csv\" u 1:2:3:4:5 w vectors lc rgb \"red\" lw 2 nohead title \"Bid\",\\
+set palette defined (-1 \"blue\", 0 'white', 1 'red')
+set cbrange [-10:10]
+plot b1=NaN, a1=NaN \"best_bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead title \"Bid\",\\
  \"\" u 1:(b0=b1, b1=$2, b0):(0):($2-b0) w vectors lc rgb \"red\" lw 0.1 nohead notitle,\\
- \"best_asks.csv\" u 1:2:3:4:5 w vectors lc rgb \"blue\" lw 2 nohead title \"Ask\",\\
- \"\" u 1:(a0=a1, a1=$2, a0):(0):($2-a0) w vectors lc rgb \"blue\" lw 0.1 nohead notitle
+ \"best_asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead title \"Ask\",\\
+ \"\" u 1:(a0=a1, a1=$2, a0):(0):($2-a0) w vectors lc rgb \"blue\" lw 0.1 nohead notitle,\\
+ \"trades.csv\" u 3:5 w points pt 'x' pointsize 0.5 lc rgb \"black\" notitle
+"
+    end
+
+    artifact 174726 "depth.gp"
+      stereotype "text"
+      cpp_src "# Plot depth
+set datafile separator \",\"
+set xdata time
+set timefmt \"%Y-%m-%dT%H:%M:%SZ\"
+set xtics format \"%H:%M:%.3SZ\" rotate
+set palette defined (-1 \"blue\", 0 'white', 1 'red')
+set cbrange [-10:10]
+plot b1=NaN, a1=NaN \"bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
+ \"asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle 
 "
     end
   end

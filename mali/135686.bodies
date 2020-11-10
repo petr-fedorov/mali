@@ -1,4 +1,41 @@
 class Aggregate
 !!!134918.cpp!!!	run() : void
-std::cout << input_file_ << "- an aggregated order book is calculated!\n";
+std::ifstream input(input_file_);
+std::ofstream bids_output("bids.csv");
+std::ofstream asks_output("asks.csv");
+std::string line;
+std::getline(input, line); // Header
+auto output = [&bids_output, &asks_output](const Stripe &r) {
+    std::ofstream *stream;
+    if (r.getVolume() > 0)
+      stream = &bids_output;
+    else
+      stream = &asks_output;
+    *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
+            << std::setprecision(3) << r.getPrice() << ","
+            << std::setprecision(6) << r.getDuration().count() << ",0,"
+            << r.getVolume() << "\n";
+};
+VecOfEvents episode{};
+while (std::getline(input, line)) {
+  try {
+    Event event{line};
+    if (episode.empty() ||
+        episode.back().getTimestamp() == event.getTimestamp())
+      episode.push_back(std::move(event));
+    else {
+      for (auto &r : ob_.update(std::move(episode)))
+        output(r);
+      episode.push_back(std::move(event));
+    }
+  } catch (const std::exception &e) {
+    BOOST_LOG_TRIVIAL(warning) << e.what();
+    BOOST_LOG_TRIVIAL(warning) << line;
+  }
+}
+Event::Timestamp last = episode.front().getTimestamp();
+for (auto &r : ob_.update(std::move(episode)))
+  output(r);
 
+for(auto &r : ob_.update(last))
+  output(r);

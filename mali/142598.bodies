@@ -1,27 +1,28 @@
 class OrderBook
 !!!163334.cpp!!!	update(inout episode : VecOfEvents) : VecOfStripes
 VecOfStripes result{};
-auto best_bid = bids_.size() ? bids_.rbegin()->second : Layer();
-auto best_ask = asks_.size() ? asks_.begin()->second : Layer();
+auto best_bid = bids_.size() ? bids_.rbegin() -> second : Layer();
+auto best_ask = asks_.size() ? asks_.begin() -> second : Layer();
 auto timestamp = episode[0].getTimestamp();
-for(auto & event : episode) {
+for (auto &event : episode) {
   auto order_id = event.getOrderId();
   auto layer_iter = previous_.find(order_id);
-  if( layer_iter != previous_.end() && layer_iter->second.take(std::move(event), result)) {
-      if(layer_iter->second.isEmpty())
-        previous_.erase(layer_iter);
-      continue;
+  if (layer_iter != previous_.end() &&
+      layer_iter->second.take(std::move(event), result)) {
+    if (layer_iter->second.isEmpty())
+      previous_.erase(layer_iter);
+    continue;
   }
-  if(event.getVolume() > 0) {
-    auto layer =  bids_[event.getPrice()];
-    if(layer.take(std::move(event), result)) {
+  if (event.getVolume() > 0) {
+    auto layer = bids_[event.getPrice()];
+    if (layer.take(std::move(event), result)) {
       previous_.insert_or_assign(order_id, layer);
       continue;
     }
   }
-  if(event.getVolume() < 0) {
-    auto layer =  asks_[event.getPrice()];
-    if(layer.take(std::move(event), result)) {
+  if (event.getVolume() < 0) {
+    auto layer = asks_[event.getPrice()];
+    if (layer.take(std::move(event), result)) {
       previous_.insert_or_assign(order_id, layer);
       continue;
     }
@@ -30,22 +31,36 @@ for(auto & event : episode) {
 }
 episode.clear();
 
-auto b = std::prev(bids_.end());
-while( b != bids_.begin() && b->second.isEmpty()) --b;
-if(!b->second.isEmpty())
-  ++b;
-bids_.erase(b, bids_.end());
-if(bids_.size() && !(bids_.rbegin()->second == best_bid)) {
-  best_bid.bestUntil(timestamp, result);
-  bids_.rbegin()->second.bestSince(timestamp, result);
-  BOOST_LOG_TRIVIAL(debug) << "Best bid " << bids_.rbegin()->second.toString();
+if (bids_.size()) {
+  auto b = std::prev(bids_.end());
+  while (b != bids_.begin() && b->second.isEmpty())
+    --b;
+  if (!b->second.isEmpty())
+    ++b;
+  bids_.erase(b, bids_.end());
+  if (bids_.size() && !(bids_.rbegin()->second == best_bid)) {
+    best_bid.bestUntil(timestamp, result);
+    bids_.rbegin()->second.bestSince(timestamp, result);
+    BOOST_LOG_TRIVIAL(debug)
+        << "Best bid " << bids_.rbegin()->second.toString();
+  }
 }
-auto a = asks_.begin();
-while( a != asks_.end() && a->second.isEmpty()) ++a;
-asks_.erase(asks_.begin(), a);
-if(asks_.size() && !(asks_.begin()->second == best_ask)) {
-  best_ask.bestUntil(timestamp, result);
-  asks_.begin()->second.bestSince(timestamp, result);
-  BOOST_LOG_TRIVIAL(debug) << "Best ask " << asks_.begin()->second.toString();
+if (asks_.size()) {
+  auto a = asks_.begin();
+  while (a != asks_.end() && a->second.isEmpty())
+    ++a;
+  asks_.erase(asks_.begin(), a);
+  if (asks_.size() && !(asks_.begin()->second == best_ask)) {
+    best_ask.bestUntil(timestamp, result);
+    asks_.begin()->second.bestSince(timestamp, result);
+    BOOST_LOG_TRIVIAL(debug) << "Best ask " << asks_.begin()->second.toString();
+  }
 }
+return result;
+!!!213254.cpp!!!	update(in timestamp : Event::Timestamp) : VecOfStripes
+VecOfStripes result{};
+for (auto & b : bids_)
+  b.second.advance(timestamp, result);
+for (auto & a : asks_)
+  a.second.advance(timestamp, result);
 return result;

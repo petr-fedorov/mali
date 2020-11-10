@@ -111,7 +111,7 @@ end
 relationcanvas 142598 relation_ref 190982 // <directional composition>
   decenter_begin 377
   decenter_end 564
-  from ref 128774 z 2007 stereotype "<<map>>" xyz 336 868 3000 to ref 140294
+  from ref 128774 z 2007 stereotype "<<map>>" xyz 336 872.5 3000 to ref 140294
   role_a_pos 372 849 3000 no_role_b
   multiplicity_a_pos 425 885 3000 no_multiplicity_b
 end
