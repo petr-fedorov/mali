@@ -12,7 +12,7 @@ The installation instructions are for Debian 10.
 
 2. Install C++ Tool chain, Boost and Qmake:
 
-       apt install clang-10
+       apt install clang-11
        apt install libboost-dev  libboost-system-dev libboost-thread-dev libboost-log-dev libboost-program-  options-dev
        apt install qt4-qmake
 
