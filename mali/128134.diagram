@@ -96,9 +96,9 @@ relationcanvas 141574 relation_ref 190598 // <realization>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 141830 relation_ref 190726 // <directional composition>
-  from ref 135174 z 2001 stereotype "<<vector>>" xyz 684 747 3000 to ref 130438
-  role_a_pos 701 710 3000 no_role_b
-  multiplicity_a_pos 676 710 3000 no_multiplicity_b
+  from ref 135174 z 2001 stereotype "<<vector>>" xyz 684 752 3000 to ref 130438
+  role_a_pos 701 717 3000 no_role_b
+  multiplicity_a_pos 676 717 3000 no_multiplicity_b
 end
 relationcanvas 142086 relation_ref 190854 // <directional composition>
   decenter_begin 542
@@ -111,7 +111,7 @@ end
 relationcanvas 142598 relation_ref 190982 // <directional composition>
   decenter_begin 377
   decenter_end 564
-  from ref 128774 z 2007 stereotype "<<map>>" xyz 336 872.5 3000 to ref 140294
+  from ref 128774 z 2007 stereotype "<<map>>" xyz 336 876 3000 to ref 140294
   role_a_pos 372 849 3000 no_role_b
   multiplicity_a_pos 425 885 3000 no_multiplicity_b
 end

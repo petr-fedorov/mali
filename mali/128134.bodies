@@ -22,6 +22,9 @@ try {
   if (getline(sstr, field, ',')) {
     v = std::stod(field);
   };
+  if (getline(sstr, field, ',')) {
+    f = std::stoll(field);
+  };
   // BOOST_LOG_TRIVIAL(debug) << " EventImpl() " << toString();
 } catch (const std::exception &e) {
   BOOST_LOG_TRIVIAL(error) << line;

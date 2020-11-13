@@ -15,5 +15,7 @@ return pImp_->n;
 return pImp_->v;
 !!!177542.cpp!!!	getState() : Event::State
 return pImp_->s;
+!!!219782.cpp!!!	getTradeId() : Event::TradeId
+return pImp_->f;
 !!!170118.cpp!!!	toString() : string
 return pImp_->toString();

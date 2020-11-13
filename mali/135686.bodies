@@ -1,25 +1,16 @@
-class Aggregate
-!!!134918.cpp!!!	run() : void
-std::ifstream input(input_file_);
-std::ofstream bids_output("bids.csv");
-std::ofstream asks_output("asks.csv");
+class Transmuter
+!!!134918.cpp!!!	transmute(in input_file : string) : void
+std::ifstream input(input_file);
 std::string line;
 std::getline(input, line); // Header
-auto output = [&bids_output, &asks_output](const Stripe &r) {
-    std::ofstream *stream;
-    if (r.getVolume() > 0)
-      stream = &bids_output;
-    else
-      stream = &asks_output;
-    *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
-            << std::setprecision(3) << r.getPrice() << ","
-            << std::setprecision(6) << r.getDuration().count() << ",0,"
-            << r.getVolume() << "\n";
-};
 VecOfEvents episode{};
+ob_.reset();
 while (std::getline(input, line)) {
   try {
     Event event{line};
+    if(event.getTradeId()) {
+      trades_output_ << line << "\n";
+    }
     if (episode.empty() ||
         episode.back().getTimestamp() == event.getTimestamp())
       episode.push_back(std::move(event));
@@ -39,3 +30,22 @@ for (auto &r : ob_.update(std::move(episode)))
 
 for(auto &r : ob_.update(last))
   output(r);
+!!!219910.cpp!!!	output(in r : Stripe) : void
+std::ofstream *stream;
+if (r.getVolume() > 0)
+  stream = &bids_output_;
+else
+  stream = &asks_output_;
+*stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
+        << std::setprecision(3) << r.getPrice() << "," << std::setprecision(6)
+        << r.getDuration().count() << ",0," << r.getVolume() << "\n";
+if (r.isBest()) {
+  std::ofstream *stream;
+  if (r.getVolume() > 0)
+    stream = &best_bids_output_;
+  else
+    stream = &best_asks_output_;
+  *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
+          << std::setprecision(3) << r.getPrice() << "," << std::setprecision(6)
+          << r.getDuration().count() << ",0," << r.getVolume() << "\n";
+}

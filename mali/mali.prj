@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 22
+  revision 26
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -319,6 +319,20 @@ ${body}}
 	
       end
 
+      operation 219782 "getTradeId"
+	const public return_type class_ref 150278 // TradeId
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
       operation 170118 "toString"
 	public explicit_return_type "string"
 	nparams 0
@@ -607,6 +621,20 @@ ${inlines}
 	
 	
 	comment "tells Order Book that time has passed (without events). "
+      end
+
+      operation 220038 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
       end
 
       classrelation 190214 // bids_ (<directional composition>)
@@ -1207,7 +1235,7 @@ ${members}};
     end
   end
 
-  classview 135302 "Spread"
+  classview 135430 "Transmuter"
     
     classdiagramsettings member_max_width 0 end
     
@@ -1227,7 +1255,7 @@ ${members}};
     
     activitydiagramsettings
      end
-    class 135558 "Spread"
+    class 135686 "Transmuter"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
 ${members}};
@@ -1240,133 +1268,33 @@ ${inlines}
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 134534 "Spread"
+      operation 134790 "Transmuter"
 	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${typeprefix}explicit ${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} : bids_output_{\"bids.csv\"}, asks_output_{\"asks.csv\"}, best_bids_output_{\"best_bids.csv\"}, best_asks_output_{\"best_asks.csv\"}, trades_output_{\"trades.csv\"}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 134918 "transmute"
+	public explicit_return_type "void"
 	nparams 1
 	  param in name "input_file" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${typeprefix}explicit ${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} : input_file_ {input_file} {
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	
 	
 	
 	
-      end
-
-      operation 134662 "run"
-	public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      attribute 135814 "input_file_"
-	const_attribute private explicit_type "string"
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 149126 "ob_"
-	private type class_ref 142598 // OrderBook
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-    end
-  end
-
-  classview 135430 "Price Aggregated Book"
-    
-    classdiagramsettings member_max_width 0 end
-    
-    classcompositediagramsettings end
-    
-    collaborationdiagramsettings end
-    
-    objectdiagramsettings end
-    
-    objectcompositediagramsettings end
-    
-    sequencediagramsettings end
-    
-    statediagramsettings
-     end
-    
-    
-    activitydiagramsettings
-     end
-    class 135686 "Aggregate"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      operation 134790 "Aggregate"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "input_file" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${typeprefix}explicit ${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} : input_file_ {input_file} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 134918 "run"
-	public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      attribute 135942 "input_file_"
-	const_attribute private explicit_type "string"
-	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
       end
 
       attribute 183046 "ob_"
@@ -1379,6 +1307,81 @@ ${inlines}
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      attribute 189574 "bids_output_"
+	private type class_ref 191622 // ofstream
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189702 "asks_output_"
+	private type class_ref 191622 // ofstream
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189830 "best_bids_output_"
+	private type class_ref 191622 // ofstream
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189958 "best_asks_output_"
+	private type class_ref 191622 // ofstream
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 190086 "trades_output_"
+	private type class_ref 191622 // ofstream
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 219910 "output"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "r" type class_ref 178054 // Stripe
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
   end
@@ -1571,6 +1574,20 @@ ${inlines}
       mysql_decl ""
       
     end
+
+    class 191622 "ofstream"
+      visibility package 
+      cpp_external cpp_decl "std::${name}
+#include <fstream>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
   end
 
   deploymentview 128518 "Files"
@@ -1657,11 +1674,10 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_elems
-	class_ref 135558 // Spread
       end
     end
 
-    artifact 135174 "Aggregate"
+    artifact 135174 "Transmuter"
       stereotype "source"
       cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
 #define ${NAMESPACE}_${NAME}_H
@@ -1685,7 +1701,7 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_elems
-	class_ref 135686 // Aggregate
+	class_ref 135686 // Transmuter
       end
     end
 
@@ -1695,7 +1711,7 @@ ${namespace_end}"
 #include \"OrderBook.h\"
 #include \"Spread.h\"
 
-#include \"Aggregate.h\"
+#include \"Transmuter.h\"
 #include <boost/log/core.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/sinks/text_file_backend.hpp>
@@ -1723,51 +1739,45 @@ void init() {
 }
 
 void usage(const po::options_description &desc) {
-  std::cout << \"\\nUsage: mali [options]\\n\";
+  std::cout << \"\\nUsage: mali [options]input-file-1 [input-file-2 ... input-file-N]\\n\";
   std::cout << desc << \"\\n\";
 }
 
 int main(int argc, char **argv) {
-  po::options_description desc{\"Allowed options\"};
-  desc.add_options()(\"help\", \"produce help message\")(
-      \"input,I\", po::value<std::string>(), \"input file name\")(
-      \"command,C\", po::value<std::string>(), \"either spread or aggregate\");
+  po::options_description visible{\"Allowed options\"};
+  visible.add_options()(\"help\", \"produce help message\");
+
+  po::options_description hidden{\"Hidden options\"};
+  hidden.add_options()(\"input\", po::value<std::vector<std::string>>(), \"input file\");
+
+  po::positional_options_description p;
+  p.add(\"input\", -1);
+  
+  po::options_description cmdline_options;
+  cmdline_options.add(visible).add(hidden);
+
   po::variables_map vm;
   init();
   logging::add_common_attributes();
 
   try {
-    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::store(po::command_line_parser(argc, argv).options(cmdline_options).positional(p).run(), vm);
     po::notify(vm);
     if (vm.count(\"help\")) {
-      usage(desc);
+      usage(visible);
       return 1;
     }
     if (!vm.count(\"input\")) {
-      std::cout << \"input file is not specified!\\n\";
-      usage(desc);
+      std::cout << \"Input file(s) are not specified!\";
+      usage(visible);
       return 1;
     }
-    if (!vm.count(\"command\")) {
-      std::cout << \"command is not specified!\\n\";
-      usage(desc);
-      return 1;
+    mali::Transmuter transmuter{};
+    for(auto file_name: vm[\"input\"].as<std::vector<std::string>>()) {
+      std::cout << file_name << \"\\n\";
+      transmuter.transmute(file_name);
     }
-    if (vm[\"command\"].as<std::string>() == \"spread\") {
-      mali::Spread spread{vm[\"input\"].as<std::string>()};
-      spread.run();
-      return 0;
-    }
-    if (vm[\"command\"].as<std::string>() == \"aggregate\") {
-      mali::Aggregate aob{vm[\"input\"].as<std::string>()};
-      aob.run();
-      return 0;
-    } else {
-      std::cout << \"unrecognized command: \" << vm[\"command\"].as<std::string>()
-                << \"\\n\";
-      usage(desc);
-      return 1;
-    }
+      
   } catch (const std::exception &e) {
     std::cout << e.what() << \"\\n\";
   }
@@ -1784,7 +1794,7 @@ int main(int argc, char **argv) {
 	artifact_ref 128390 // Event
 	artifact_ref 128518 // Main
 	artifact_ref 135046 // Spread
-	artifact_ref 135174 // Aggregate
+	artifact_ref 135174 // Transmuter
 	artifact_ref 141702 // OrderBook
 	artifact_ref 141830 // EventImp
 	artifact_ref 148358 // Layer
@@ -1794,7 +1804,7 @@ int main(int argc, char **argv) {
 	artifact_ref 161670 // date
       end
       ncouples 10
-      key "genpro pro" value "/tmp/mali/build/mali.pro"
+      key "genpro pro" value "/tmp/mali/cpp/mali.pro"
       key "genpro path" value "/tmp/mali"
       key "genpro target" value "/tmp/mali/build/mali"
       key "genpro tmplt" value "app"
@@ -9889,24 +9899,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os,
       end
     end
 
-    artifact 168198 "spread.gp"
-      stereotype "text"
-      cpp_src "# Plot spread
-set datafile separator \",\"
-set xdata time
-set timefmt \"%Y-%m-%dT%H:%M:%SZ\"
-set xtics format \"%H:%M:%.3SZ\" rotate
-set palette defined (-1 \"blue\", 0 'white', 1 'red')
-set cbrange [-10:10]
-plot b1=NaN, a1=NaN \"best_bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead title \"Bid\",\\
- \"\" u 1:(b0=b1, b1=$2, b0):(0):($2-b0) w vectors lc rgb \"red\" lw 0.1 nohead notitle,\\
- \"best_asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead title \"Ask\",\\
- \"\" u 1:(a0=a1, a1=$2, a0):(0):($2-a0) w vectors lc rgb \"blue\" lw 0.1 nohead notitle,\\
- \"trades.csv\" u 3:5 w points pt 'x' pointsize 0.5 lc rgb \"black\" notitle
-"
-    end
-
-    artifact 174726 "depth.gp"
+    artifact 174726 "mali.gp"
       stereotype "text"
       cpp_src "# Plot depth
 set datafile separator \",\"
@@ -9915,8 +9908,13 @@ set timefmt \"%Y-%m-%dT%H:%M:%SZ\"
 set xtics format \"%H:%M:%.3SZ\" rotate
 set palette defined (-1 \"blue\", 0 'white', 1 'red')
 set cbrange [-10:10]
-plot b1=NaN, a1=NaN \"bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
- \"asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle 
+plot [][15200:15800] b1=NaN, a1=NaN \"bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
+ \"asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
+bb1=NaN, ba1=NaN \"best_bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
+ \"\" u 1:(b0=bb1, bb1=$2, b0):(0):($2-b0) w vectors lc rgb \"red\" lw 0.1 nohead notitle,\\
+ \"best_asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
+ \"\" u 1:(a0=ba1, ba1=$2, a0):(0):($2-a0) w vectors lc rgb \"blue\" lw 0.1 nohead notitle,\\
+ \"trades.csv\" u 3:5:8 w points lc rgb \"black\" ps variable notitle
 "
     end
   end

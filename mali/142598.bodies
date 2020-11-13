@@ -64,3 +64,7 @@ for (auto & b : bids_)
 for (auto & a : asks_)
   a.second.advance(timestamp, result);
 return result;
+!!!220038.cpp!!!	reset() : void
+bids_.clear();
+asks_.clear();
+previous_.clear();
