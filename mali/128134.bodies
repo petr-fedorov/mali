@@ -6,34 +6,123 @@ std::istringstream sstr{line};
 std::string field;
 try {
   if (getline(sstr, field, ',')) {
-    boost::uuids::string_generator gen;
-    i = gen(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        boost::uuids::string_generator gen;
+        i = gen(field);
+      }
+      else 
+        i = boost::uuids::nil_uuid();
+    }
+    else
+     throw std::domain_error("can't parse 'maker' field");
   };
   if (getline(sstr, field, ',')) {
-    n = std::stol(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        n = std::stol(field);
+      }
+      else 
+        n = 0;
+    }
+    else
+     throw std::domain_error("can't parse 'ordinal' field");
   };
   sstr >> date::parse("%FT%TZ ,", t);
   if (getline(sstr, field, ',')) {
-    s = std::stoi(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        s = std::stoi(field);
+      }
+      else 
+        s = 0;
+    }
+    else
+     throw std::domain_error("can't parse 'state' field");
   };
   if (getline(sstr, field, ',')) {
-    p = std::stod(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        p = std::stod(field);
+      }
+      else 
+        p = 0.0;
+    }
+    else
+     throw std::domain_error("can't parse 'price' field");
   };
   if (getline(sstr, field, ',')) {
-    v = std::stod(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        v = std::stod(field);
+      }
+      else 
+        v = 0.0;
+    }
+    else
+     throw std::domain_error("can't parse 'volume' field");
   };
   if (getline(sstr, field, ',')) {
-    f = std::stoll(field);
+    if(field != "NA") {
+      if(!field.empty()) {
+        delta_v = std::stod(field);
+      }
+      else 
+        delta_v = 0.0;
+    }
+    else
+     throw std::domain_error("can't parse 'change' field");
   };
+  if (getline(sstr, field, ',')) {
+    if(field != "NA") {
+      if(!field.empty()) {
+        f = std::stoll(field);
+      }
+      else 
+        f = 0;
+    }
+    else
+     throw std::domain_error("can't parse 'trade_id' field");
+  };
+  if (getline(sstr, field, ',')) {
+    if(field != "NA") {
+      if(!field.empty()) {
+        boost::uuids::string_generator gen;
+        taker_i = gen(field);
+      }
+      else 
+        taker_i = boost::uuids::nil_uuid();
+    }
+    else
+     throw std::domain_error("can't parse 'taker' field");
+  };
+  sstr >> date::parse("%FT%TZ ,", local_t);
+  if (getline(sstr, field, ',')) {
+    if(field != "NA") {
+      if(!field.empty()) {
+        d = std::stoi(field);
+      }
+      else 
+        d = 0;
+    }
+    else
+     throw std::domain_error("can't parse 'deleted' field");
+  }
+  else
+    d=0;
   // BOOST_LOG_TRIVIAL(debug) << " EventImpl() " << toString();
 } catch (const std::exception &e) {
-  BOOST_LOG_TRIVIAL(error) << line;
+//  BOOST_LOG_TRIVIAL(error) << line;
   throw;
 }
 
 !!!163590.cpp!!!	toString() : string
 std::stringstream str;
-str << "i=" << boost::uuids::to_string(i) << " n=" << n
-    << " t=" << date::format("%Y-%m-%dT%H-%M-%S", t) << " s=" << s
-    << " p=" << p << " v=" << v;
+str << "maker=" << boost::uuids::to_string(i) << " ordinal=" << n
+    << " timestamp=" << date::format("%Y-%m-%dT%H-%M-%S", t) << " state=" << s
+    << " price=" << p << " volume=" << v << " change=" << delta_v
+    << " trade_id=" << f << "taker=" << boost::uuids::to_string(taker_i)
+    << " heard=" << date::format("%Y-%m-%dT%H-%M-%S", local_t)
+    << " deleted=" << d;
+
 return str.str();

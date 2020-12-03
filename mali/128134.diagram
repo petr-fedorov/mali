@@ -62,9 +62,9 @@ relationcanvas 128262 relation_ref 128134 // <realization>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 130950 relation_ref 135174 // <directional aggregation>
-  from ref 130438 z 2007 stereotype "<<unique_ptr>>" xyz 568 413 3000 to ref 130566
-  role_a_pos 626 385 3000 no_role_b
-  multiplicity_a_pos 599 385 3000 multiplicity_b_pos 586 426 3000
+  from ref 130438 z 2007 stereotype "<<unique_ptr>>" xyz 568 424 3000 to ref 130566
+  role_a_pos 626 407 3000 no_role_b
+  multiplicity_a_pos 599 407 3000 multiplicity_b_pos 586 426 3000
 end
 line 131206 ---+
   from ref 128006 z 2001 to ref 130438
@@ -96,9 +96,9 @@ relationcanvas 141574 relation_ref 190598 // <realization>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 141830 relation_ref 190726 // <directional composition>
-  from ref 135174 z 2001 stereotype "<<vector>>" xyz 684 752 3000 to ref 130438
-  role_a_pos 701 717 3000 no_role_b
-  multiplicity_a_pos 676 717 3000 no_multiplicity_b
+  from ref 135174 z 2001 stereotype "<<vector>>" xyz 684 756 3000 to ref 130438
+  role_a_pos 701 723 3000 no_role_b
+  multiplicity_a_pos 676 723 3000 no_multiplicity_b
 end
 relationcanvas 142086 relation_ref 190854 // <directional composition>
   decenter_begin 542
