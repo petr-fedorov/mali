@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 29
+  revision 31
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -1296,10 +1296,12 @@ ${inlines}
       
       operation 134790 "Transmuter"
 	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${typeprefix}explicit ${name}${(}${)}${volatile}${throw};
+	nparams 2
+	  param in name "quote_increment" explicit_type "double"
+	  param in name "base_increment" explicit_type "double"
+	cpp_decl "    ${comment}${inline}${typeprefix}explicit ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} : bids_output_{\"bids.csv\"}, asks_output_{\"asks.csv\"}, best_bids_output_{\"best_bids.csv\"}, best_asks_output_{\"best_asks.csv\"}, trades_output_{\"trades.csv\"}{
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${volatile}${throw} : bids_output_{\"bids.csv\"}, asks_output_{\"asks.csv\"}, best_bids_output_{\"best_bids.csv\"}, best_asks_output_{\"best_asks.csv\"}, trades_output_{\"trades.csv\"}, quote_increment_{quote_increment}, base_increment_{base_increment} {
   ${body}}
 "
 	
@@ -1408,6 +1410,54 @@ ${inlines}
 	
 	
 	
+      end
+
+      attribute 203142 "quote_increment_"
+	private explicit_type "double"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203270 "base_increment_"
+	private explicit_type "double"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203398 "quote_precision_"
+	private explicit_type "int"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 203526 "base_precision_"
+	private explicit_type "int"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
     end
   end
@@ -1771,8 +1821,11 @@ void usage(const po::options_description &desc) {
 }
 
 int main(int argc, char **argv) {
-  po::options_description visible{\"Allowed options\"};
-  visible.add_options()(\"help\", \"produce help message\");
+  double quote_increment, base_increment;
+  po::options_description visible{\"Options\"};
+  visible.add_options()(\"help\", \"produce help message\")
+    (\"quote-increment,q\", po::value<double>(&quote_increment)->default_value(0.01), \"specifies the minimum increment for the quote currency (i.e. USD in BTC-USD)\")
+    (\"base-increment,b\", po::value<double>(&base_increment)->default_value(0.01),\"specifies the minimum increment for the base currency (i.e. BTC in BTC-USD)\");
 
   po::options_description hidden{\"Hidden options\"};
   hidden.add_options()(\"input\", po::value<std::vector<std::string>>(), \"input file\");
@@ -1799,7 +1852,7 @@ int main(int argc, char **argv) {
       usage(visible);
       return 1;
     }
-    mali::Transmuter transmuter{};
+    mali::Transmuter transmuter{quote_increment, base_increment};
     for(auto file_name: vm[\"input\"].as<std::vector<std::string>>()) {
       std::cout << file_name << \"\\n\";
       transmuter.transmute(file_name);

@@ -1,4 +1,7 @@
 class Transmuter
+!!!134790.cpp!!!	Transmuter(in quote_increment : double, in base_increment : double)
+quote_precision_ = -std::floor(std::log10(quote_increment));
+base_precision_ = -std::floor(std::log10(base_increment));
 !!!134918.cpp!!!	transmute(in input_file : string) : void
 std::ifstream input(input_file);
 std::string line;
@@ -44,8 +47,8 @@ if (r.getVolume() > 0)
 else
   stream = &asks_output_;
 *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
-        << std::setprecision(3) << r.getPrice() << "," << std::setprecision(8)
-        << r.getDuration().count() << ",0," << r.getVolume() << "\n";
+        << std::setprecision(quote_precision_) << r.getPrice() << "," << std::setprecision(6)
+        << r.getDuration().count() << ",0," << std::setprecision(base_precision_) << r.getVolume() << "\n";
 if (r.isBest()) {
   std::ofstream *stream;
   if (r.getVolume() > 0)
@@ -53,6 +56,6 @@ if (r.isBest()) {
   else
     stream = &best_asks_output_;
   *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
-          << std::setprecision(3) << r.getPrice() << "," << std::setprecision(8)
-          << r.getDuration().count() << ",0," << r.getVolume() << "\n";
+          << std::setprecision(quote_precision_) << r.getPrice() << "," << std::setprecision(6)
+          << r.getDuration().count() << ",0,"<< std::setprecision(base_precision_) << r.getVolume() << "\n";
 }
