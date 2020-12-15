@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 31
+  revision 32
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -221,7 +221,7 @@ ${body}}
 	
       end
 
-      operation 184070 "getTimestamp"
+      operation 184070 "timestamp"
 	const public return_type class_ref 129030 // Timestamp
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -235,7 +235,7 @@ ${body}}
 	
       end
 
-      operation 148870 "getPrice"
+      operation 148870 "price"
 	const public return_type class_ref 149638 // Price
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -249,7 +249,7 @@ ${body}}
 	
       end
 
-      operation 148998 "getPriceTimestamp"
+      operation 148998 "priceSince"
 	const public return_type class_ref 129030 // Timestamp
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -263,7 +263,7 @@ ${body}}
 	
       end
 
-      operation 149126 "getOrderId"
+      operation 149126 "maker"
 	const public return_type class_ref 149766 // OrderId
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -277,7 +277,7 @@ ${body}}
 	
       end
 
-      operation 198790 "getEventNo"
+      operation 198790 "ordinal"
 	const public return_type class_ref 149894 // EventNo
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -291,7 +291,7 @@ ${body}}
 	
       end
 
-      operation 149382 "getVolume"
+      operation 149382 "remaining"
 	const public return_type class_ref 150150 // Volume
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -305,7 +305,7 @@ ${body}}
 	
       end
 
-      operation 177542 "getState"
+      operation 177542 "state"
 	const public return_type class_ref 150022 // State
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -319,7 +319,7 @@ ${body}}
 	
       end
 
-      operation 219782 "getTradeId"
+      operation 219782 "trade"
 	const public return_type class_ref 150278 // TradeId
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -856,7 +856,7 @@ ${members}};
       explicit_switch_type ""
       mysql_decl ""
       
-      operation 205958 "getVolume"
+      operation 205958 "volume"
 	const cpp_inline public return_type class_ref 150150 // Volume
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -1041,7 +1041,7 @@ ${inlines}
 	
       end
 
-      operation 206086 "getPrice"
+      operation 206086 "price"
 	const public return_type class_ref 149638 // Price
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -1055,7 +1055,7 @@ ${inlines}
 	
       end
 
-      operation 206214 "getVolume"
+      operation 206214 "volume"
 	const public return_type class_ref 150150 // Volume
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -1069,7 +1069,7 @@ ${inlines}
 	
       end
 
-      operation 206342 "getStart"
+      operation 206342 "start"
 	const public return_type class_ref 129030 // Timestamp
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -1083,7 +1083,7 @@ ${inlines}
 	
       end
 
-      operation 206470 "getDuration"
+      operation 206470 "duration"
 	const public return_type class_ref 185094 // seconds
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};

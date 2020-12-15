@@ -13,11 +13,11 @@ while (std::getline(input, line)) {
     Event event{line};
     // BOOST_LOG_TRIVIAL(debug) << event.toString();
     if (!event.deleted()) {
-      if (event.getTradeId()) {
+      if (event.trade()) {
         trades_output_ << line << "\n";
       }
       if (episode.empty() ||
-          episode.back().getTimestamp() == event.getTimestamp())
+          episode.back().timestamp() == event.timestamp())
         episode.push_back(std::move(event));
       else {
         for (auto &r : ob_.update(std::move(episode)))
@@ -34,7 +34,7 @@ while (std::getline(input, line)) {
     BOOST_LOG_TRIVIAL(warning) << line;
   }
 }
-Event::Timestamp last = episode.front().getTimestamp();
+Event::Timestamp last = episode.front().timestamp();
 for (auto &r : ob_.update(std::move(episode)))
   output(r);
 
@@ -42,20 +42,20 @@ for (auto &r : ob_.update(last))
   output(r);
 !!!219910.cpp!!!	output(in r : Stripe) : void
 std::ofstream *stream;
-if (r.getVolume() > 0)
+if (r.volume() > 0)
   stream = &bids_output_;
 else
   stream = &asks_output_;
-*stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
-        << std::setprecision(quote_precision_) << r.getPrice() << "," << std::setprecision(6)
-        << r.getDuration().count() << ",0," << std::setprecision(base_precision_) << r.getVolume() << "\n";
+*stream << date::format("%FT%TZ", r.start()) << "," << std::fixed
+        << std::setprecision(quote_precision_) << r.price() << "," << std::setprecision(6)
+        << r.duration().count() << ",0," << std::setprecision(base_precision_) << r.volume() << "\n";
 if (r.isBest()) {
   std::ofstream *stream;
-  if (r.getVolume() > 0)
+  if (r.volume() > 0)
     stream = &best_bids_output_;
   else
     stream = &best_asks_output_;
-  *stream << date::format("%FT%TZ", r.getStart()) << "," << std::fixed
-          << std::setprecision(quote_precision_) << r.getPrice() << "," << std::setprecision(6)
-          << r.getDuration().count() << ",0,"<< std::setprecision(base_precision_) << r.getVolume() << "\n";
+  *stream << date::format("%FT%TZ", r.start()) << "," << std::fixed
+          << std::setprecision(quote_precision_) << r.price() << "," << std::setprecision(6)
+          << r.duration().count() << ",0,"<< std::setprecision(base_precision_) << r.volume() << "\n";
 }

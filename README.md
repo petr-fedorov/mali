@@ -1,8 +1,10 @@
 # MArket LIquidity (MALI)
 
-A stand-alone application for the transformation of the reconstructed order book events into a format suitable for a visualisation of market liquidity by [gnuplot](http://gnuplot.info/) or a similar application. An example of the visualisation is shown below:
+A stand-alone application for the transformation of the reconstructed order book events into a format suitable for a visualisation of market liquidity by [gnuplot](http://gnuplot.info/) or a similar application. An example of the visualisation (a few minutes of LINK-USD trading on Coinbase) is shown below:
 
 ![](mali.png)
+
+Trades are shown as white or hardly coloured dots due to their small (relative to order book price level) volumes.
 
 ## Installation
 
@@ -28,9 +30,16 @@ The installation instructions are for Debian 10.
 
 ## Usage
 
-    ./mali input-file-1 [input-file-2 ... input-file-N]
+    ./mali [options] input-file-1 [input-file-2 ... input-file-N]
 
 where `input-file-X` is a file containing reconstructed order book events (as produced by [OBERON](https://github.com/petr-fedorov/oberon)).
+
+Options:
+
+    -q [ --quote-increment ] arg (=0.01) specifies the minimum increment for the
+                                         quote currency (i.e. USD in BTC-USD)
+    -b [ --base-increment ] arg (=0.01)  specifies the minimum increment for the
+                                         base currency (i.e. BTC in BTC-USD)
 
 The program will output the following five files with self-explanatory names:
 * `best_bids.csv`
@@ -45,6 +54,11 @@ Remove or rename `trades.csv` if you don't want to visualise trades.
 Then launch gnuplot and enter the following commands:
 
     load ../cpp/mali.gp
-    # adjust the price range below as needed
-    set yrange [15200:15800]
+
+    # adjust format and ranges as needed
+
+    set format y "%10.5f"
+    set yrange [12.58:12.67]
+    set cbrange [-1000:1000]
+
     replot
