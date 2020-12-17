@@ -1,21 +1,24 @@
 class Event
 !!!148358.cpp!!!	Event(in line : string)
 // BOOST_LOG_TRIVIAL(debug) << "Created i=" << boost::uuids::to_string(pImp_->i) << " n=" << pImp_->n;
-!!!184070.cpp!!!	getTimestamp() : Event::Timestamp
+!!!184070.cpp!!!	timestamp() : Event::Timestamp
 return pImp_->t;
-!!!148870.cpp!!!	getPrice() : Event::Price
+!!!148870.cpp!!!	price() : Event::Price
 return pImp_->p;
-!!!148998.cpp!!!	getPriceTimestamp() : Event::Timestamp
+!!!148998.cpp!!!	priceSince() : Event::Timestamp
 return pImp_->price_t;
-!!!149126.cpp!!!	getOrderId() : Event::OrderId
+!!!149126.cpp!!!	maker() : Event::OrderId
 return pImp_->i;
-!!!198790.cpp!!!	getEventNo() : Event::EventNo
+!!!198790.cpp!!!	ordinal() : Event::EventNo
 return pImp_->n;
-!!!149382.cpp!!!	getVolume() : Event::Volume
+!!!149382.cpp!!!	remaining() : Event::Volume
 return pImp_->v;
-!!!177542.cpp!!!	getState() : Event::State
+!!!233094.cpp!!!	change() : Event::Volume
+return pImp_->delta_v;
+
+!!!177542.cpp!!!	state() : Event::State
 return pImp_->s;
-!!!219782.cpp!!!	getTradeId() : Event::TradeId
+!!!219782.cpp!!!	trade() : Event::TradeId
 return pImp_->f;
 !!!226566.cpp!!!	deleted() : bool
 return pImp_->d;

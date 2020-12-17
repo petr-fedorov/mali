@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 32
+  revision 33
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -292,6 +292,20 @@ ${body}}
       end
 
       operation 149382 "remaining"
+	const public return_type class_ref 150150 // Volume
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 233094 "change"
 	const public return_type class_ref 150150 // Volume
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -1259,6 +1273,7 @@ ${members}};
 	  b parent class_ref 178182 // vector
       end
     end
+
   end
 
   classview 135430 "Transmuter"
@@ -9994,7 +10009,7 @@ bb1=NaN, ba1=NaN \"best_bids.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohea
  \"\" u 1:(b0=bb1, bb1=$2, b0):(0):($2-b0) w vectors lc rgb \"red\" lw 0.1 nohead notitle,\\
  \"best_asks.csv\" u 1:2:3:4:5 w vectors lc palette z lw 2 nohead notitle,\\
  \"\" u 1:(a0=ba1, ba1=$2, a0):(0):($2-a0) w vectors lc rgb \"blue\" lw 0.1 nohead notitle,\\
- \"trades.csv\" u 3:5:7 w points lc palette z notitle
+ \"trades.csv\" u 1:2:3 w points lc palette z notitle
 "
     end
 

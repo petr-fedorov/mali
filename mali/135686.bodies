@@ -7,19 +7,38 @@ std::ifstream input(input_file);
 std::string line;
 std::getline(input, line); // Header
 VecOfEvents episode{};
+std::map<Event::Price, Event::Volume> buys{}, sells{};
 ob_.reset();
 while (std::getline(input, line)) {
   try {
     Event event{line};
     // BOOST_LOG_TRIVIAL(debug) << event.toString();
     if (!event.deleted()) {
-      if (event.trade()) {
-        trades_output_ << line << "\n";
-      }
       if (episode.empty() ||
-          episode.back().timestamp() == event.timestamp())
+          episode.back().timestamp() == event.timestamp()){
+        if (event.trade()) {
+          if(event.change() > 0)
+            buys[event.price()] += event.change();
+          else
+            sells[event.price()] += event.change();
+        }
         episode.push_back(std::move(event));
+      }
       else {
+        for(auto trade : buys)
+          trades_output_ << date::format("%FT%TZ", episode.back().timestamp()) << ","
+                         << std::fixed << std::setprecision(quote_precision_)
+                         << trade.first << ","
+                         << std::setprecision(base_precision_) << trade.second
+                         << "\n";
+        for(auto trade : sells)
+          trades_output_ << date::format("%FT%TZ", episode.back().timestamp()) << ","
+                         << std::fixed << std::setprecision(quote_precision_)
+                         << trade.first << ","
+                         << std::setprecision(base_precision_) << trade.second
+                         << "\n";
+        buys.clear();
+        sells.clear();
         for (auto &r : ob_.update(std::move(episode)))
           output(r);
         episode.push_back(std::move(event));
