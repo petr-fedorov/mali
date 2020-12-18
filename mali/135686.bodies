@@ -1,5 +1,5 @@
 class Transmuter
-!!!134790.cpp!!!	Transmuter(in quote_increment : double, in base_increment : double)
+!!!134790.cpp!!!	Transmuter(in quote_increment : double, in base_increment : double, in min_price : Event::Price, in max_price : Event::Price, in start : Event::Timestamp, in end : Event::Timestamp)
 quote_precision_ = -std::floor(std::log10(quote_increment));
 base_precision_ = -std::floor(std::log10(base_increment));
 !!!134918.cpp!!!	transmute(in input_file : string) : void
@@ -26,17 +26,19 @@ while (std::getline(input, line)) {
       }
       else {
         for(auto trade : buys)
-          trades_output_ << date::format("%FT%TZ", episode.back().timestamp()) << ","
-                         << std::fixed << std::setprecision(quote_precision_)
-                         << trade.first << ","
-                         << std::setprecision(base_precision_) << trade.second
-                         << "\n";
+          if (trade.first >= min_price_ && trade.first <= max_price_ && episode.back().timestamp() >= start_ && episode.back().timestamp() <= end_)
+            trades_output_ << date::format("%FT%TZ", episode.back().timestamp())
+                           << "," << std::fixed
+                           << std::setprecision(quote_precision_) << trade.first
+                           << "," << std::setprecision(base_precision_)
+                           << trade.second << "\n";
         for(auto trade : sells)
-          trades_output_ << date::format("%FT%TZ", episode.back().timestamp()) << ","
-                         << std::fixed << std::setprecision(quote_precision_)
-                         << trade.first << ","
-                         << std::setprecision(base_precision_) << trade.second
-                         << "\n";
+          if (trade.first >= min_price_ && trade.first <= max_price_ && episode.back().timestamp() >= start_ && episode.back().timestamp() <= end_)
+            trades_output_ << date::format("%FT%TZ", episode.back().timestamp())
+                           << "," << std::fixed
+                           << std::setprecision(quote_precision_) << trade.first
+                           << "," << std::setprecision(base_precision_)
+                           << trade.second << "\n";
         buys.clear();
         sells.clear();
         for (auto &r : ob_.update(std::move(episode)))
@@ -65,16 +67,35 @@ if (r.volume() > 0)
   stream = &bids_output_;
 else
   stream = &asks_output_;
-*stream << date::format("%FT%TZ", r.start()) << "," << std::fixed
-        << std::setprecision(quote_precision_) << r.price() << "," << std::setprecision(6)
-        << r.duration().count() << ",0," << std::setprecision(base_precision_) << r.volume() << "\n";
-if (r.isBest()) {
-  std::ofstream *stream;
-  if (r.volume() > 0)
-    stream = &best_bids_output_;
-  else
-    stream = &best_asks_output_;
-  *stream << date::format("%FT%TZ", r.start()) << "," << std::fixed
-          << std::setprecision(quote_precision_) << r.price() << "," << std::setprecision(6)
-          << r.duration().count() << ",0,"<< std::setprecision(base_precision_) << r.volume() << "\n";
+
+if (r.price() >= min_price_ && r.price() <= max_price_ && r.start() <= end_ && r.start() + r.duration() >= start_) {
+  Event::Timestamp start;
+  Stripe::seconds duration;
+  if(r.start() < start_) {
+    start = start_;
+    duration = r.start() + r.duration() - start_;
+  }
+  else {
+    start = r.start();
+    duration = r.duration();
+  }
+
+  if(start + duration >= end_)
+    duration = end_ - start;
+
+  *stream << date::format("%FT%TZ", start) << "," << std::fixed
+          << std::setprecision(quote_precision_) << r.price() << ","
+          << std::setprecision(6) << duration.count() << ",0,"
+          << std::setprecision(base_precision_) << r.volume() << "\n";
+  if (r.isBest()) {
+    std::ofstream *stream;
+    if (r.volume() > 0)
+      stream = &best_bids_output_;
+    else
+      stream = &best_asks_output_;
+    *stream << date::format("%FT%TZ", start) << "," << std::fixed
+            << std::setprecision(quote_precision_) << r.price() << ","
+            << std::setprecision(6) << duration.count() << ",0,"
+            << std::setprecision(base_precision_) << r.volume() << "\n";
+  }
 }
