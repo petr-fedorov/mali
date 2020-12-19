@@ -14,17 +14,8 @@ while (std::getline(input, line)) {
     Event event{line};
     // BOOST_LOG_TRIVIAL(debug) << event.toString();
     if (!event.deleted()) {
-      if (episode.empty() ||
-          episode.back().timestamp() == event.timestamp()){
-        if (event.trade()) {
-          if(event.change() > 0)
-            buys[event.price()] += event.change();
-          else
-            sells[event.price()] += event.change();
-        }
-        episode.push_back(std::move(event));
-      }
-      else {
+      if (!episode.empty() &&
+          episode.back().timestamp() != event.timestamp()){
         for(auto trade : buys)
           if (trade.first >= min_price_ && trade.first <= max_price_ && episode.back().timestamp() >= start_ && episode.back().timestamp() <= end_)
             trades_output_ << date::format("%FT%TZ", episode.back().timestamp())
@@ -39,12 +30,19 @@ while (std::getline(input, line)) {
                            << std::setprecision(quote_precision_) << trade.first
                            << "," << std::setprecision(base_precision_)
                            << trade.second << "\n";
-        buys.clear();
-        sells.clear();
         for (auto &r : ob_.update(std::move(episode)))
           output(r);
-        episode.push_back(std::move(event));
+        buys.clear();
+        sells.clear();
+        episode.clear();
       }
+      if (event.trade()) {
+        if (event.change() > 0)
+          buys[event.price()] += event.change();
+        else
+          sells[event.price()] += event.change();
+      }
+      episode.push_back(std::move(event));
     }
     else {
       BOOST_LOG_TRIVIAL(warning) << "Skipped a deleted event (deleted=1)";
