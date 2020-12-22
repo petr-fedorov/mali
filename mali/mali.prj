@@ -1,6 +1,6 @@
 format 223
 "mali"
-  revision 35
+  revision 36
   modified_by 6 "petr"
   cpp_root_dir "/tmp/mali/"
 
@@ -616,6 +616,18 @@ ${members}};
 	
 	
 	
+      end
+
+      attribute 216966 "latest_seconds_"
+	class_attribute private type class_ref 129030 // Timestamp
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
     end
 

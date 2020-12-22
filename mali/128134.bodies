@@ -28,7 +28,16 @@ try {
     else
      throw std::domain_error("can't parse 'ordinal' field");
   };
-  sstr >> date::parse("%FT%TZ ,", t);
+  if(getline(sstr, field,',') && !field.empty()) {
+    std::istringstream ss{field};
+    ss >> date::parse("%FT%TZ", latest_seconds_);
+  }
+
+  if (getline(sstr, field, ',') && field != "NA" && !field.empty()) {
+    t = latest_seconds_ + std::chrono::microseconds{std::stol(field)};
+  } else
+    throw std::domain_error("can't parse 'timestamp' field");
+
   if (getline(sstr, field, ',')) {
     if(field != "NA") {
       if(!field.empty()) {
@@ -96,7 +105,12 @@ try {
     else
      throw std::domain_error("can't parse 'taker' field");
   };
-  sstr >> date::parse("%FT%TZ ,", local_t);
+
+  if (getline(sstr, field, ',') && field != "NA" && !field.empty())
+    local_t = t + std::chrono::microseconds{std::stol(field)};
+  else
+    throw std::domain_error("can't parse 'local_t' field");
+
   if (getline(sstr, field, ',')) {
     if(field != "NA") {
       if(!field.empty()) {
